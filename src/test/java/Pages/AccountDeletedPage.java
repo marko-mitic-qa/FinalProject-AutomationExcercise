@@ -17,5 +17,11 @@ public class AccountDeletedPage extends BaseTest {
     @FindBy(css = "[data-qa='account-deleted']")
     public WebElement accountDeletedTitle;
 
+    //------------------------------------------------------
+
+    public void clickOnContinueButton(){
+        continueButton.click();
+    }
+
 
 }

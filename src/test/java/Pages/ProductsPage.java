@@ -64,7 +64,7 @@ public class ProductsPage extends BaseTest {
         }
     }
 
-/*    public void addRandomProductToCart(){
+    public void addRandomProductToCart(){
         if(!addToCartProductsList.isEmpty()){
             Random random = new Random();
             int randomAddToCartIndex = random.nextInt(addToCartProductsList.size());
@@ -75,7 +75,7 @@ public class ProductsPage extends BaseTest {
             clickON(addToCartButton);
         }
 
-    }*/
+    }
 
     public void clickRandomButtonInsideSingleProduct(List<WebElement> singleProductElements) {
         if (!singleProductElements.isEmpty()) {

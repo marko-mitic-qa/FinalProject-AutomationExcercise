@@ -1,6 +1,7 @@
 package Pages;
 
 import Base.BaseTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -24,6 +25,9 @@ public class HomePage extends BaseTest {
     @FindBy(css = "a[href='/logout']")
     public WebElement logoutButton;
 
+    @FindBy(partialLinkText = "Logged in")
+    public WebElement loggedInAsUserButton;
+
 
     //--------------------------------------------------------------------
 
@@ -38,4 +42,7 @@ public class HomePage extends BaseTest {
     public void clickOnDeleteAccountButton(){
         deleteAccountButton.click();
     }
+
+
+
 }

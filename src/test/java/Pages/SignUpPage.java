@@ -6,6 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SignUpPage extends BaseTest {
 
     public SignUpPage(){
@@ -20,6 +23,9 @@ public class SignUpPage extends BaseTest {
 
     @FindBy(id = "name")
     public WebElement nameField;
+
+    @FindBy(id = "email")
+    public WebElement emailField;
 
     @FindBy(id = "password")
     public WebElement passwordField;
@@ -172,8 +178,9 @@ public class SignUpPage extends BaseTest {
     }
 
     public void clickOnCreateAccount(){
-        createAccountButton.click();
+        clickON(createAccountButton);
     }
+
 
 
 }

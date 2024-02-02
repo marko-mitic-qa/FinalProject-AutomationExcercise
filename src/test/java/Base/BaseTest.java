@@ -19,6 +19,7 @@ public class BaseTest {
     public SignUpPage signUpPage;
     public ProductsPage productsPage;
     public AccountCreatedPage accountCreatedPage;
+    public AccountDeletedPage accountDeletedPage;
 
     //------------------------------------
     public String homepageURL = "https://automationexercise.com/";
