@@ -1,8 +1,6 @@
 package Base;
 
-import Pages.HomePage;
-import Pages.SignUpLogInPage;
-import Pages.SignUpPage;
+import Pages.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +17,15 @@ public class BaseTest {
     public HomePage homePage;
     public SignUpLogInPage signUpLogInPage;
     public SignUpPage signUpPage;
+    public ProductsPage productsPage;
+    public AccountCreatedPage accountCreatedPage;
+
+    //------------------------------------
+    public String homepageURL = "https://automationexercise.com/";
+    public String signUpLoginURL = "https://automationexercise.com/login";
+    public String signupURL = "https://automationexercise.com/signup";
+    public String accountCreatedURL = "https://automationexercise.com/account_created";
+    public String accountdeletedURL = "https://automationexercise.com/delete_account";
 
     @BeforeClass
     public void setUp() throws IOException {

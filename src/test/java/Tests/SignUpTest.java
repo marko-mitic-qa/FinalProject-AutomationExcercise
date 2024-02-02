@@ -1,6 +1,7 @@
 package Tests;
 
 import Base.BaseTest;
+import Pages.AccountCreatedPage;
 import Pages.HomePage;
 import Pages.SignUpLogInPage;
 import Pages.SignUpPage;
@@ -13,9 +14,7 @@ import java.time.Duration;
 
 public class SignUpTest extends BaseTest {
 
-    String homepageURL = "https://automationexercise.com/";
-    String signUpLoginURL = "https://automationexercise.com/login";
-    String signupURL = "https://automationexercise.com/signup";
+
 
     @BeforeMethod
     public void pageSetUp(){
@@ -32,10 +31,36 @@ public class SignUpTest extends BaseTest {
         homePage = new HomePage();
         signUpLogInPage = new SignUpLogInPage();
         signUpPage = new SignUpPage();
+        accountCreatedPage = new AccountCreatedPage();
     }
+
+
 
     @Test (priority = 10)
     public void newUserCanSignUp(){
+        String title = excelReader.getStringData("SignUpDataValid",1,0);
+        String name = excelReader.getStringData("SignUpDataValid",1,1);
+        String validEmail = excelReader.getStringData("SignUpDataValid",1,2);
+        String validPassword = excelReader.getStringData("SignUpDataValid",1,3);
+        String validDayOfBirth = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,4));
+        String validMonthOfBirth = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,5));
+        String validYearOfBirth = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,6));
+        String newsletterOption = excelReader.getStringData("SignUpDataValid",1,7);
+        String specialOffersOption = excelReader.getStringData("SignUpDataValid",1,8);
+        String validFirstName = excelReader.getStringData("SignUpDataValid",1,9);
+        String validLastName = excelReader.getStringData("SignUpDataValid",1,10);
+        String validCompany = excelReader.getStringData("SignUpDataValid",1,11);
+        String validAddress1 = excelReader.getStringData("SignUpDataValid",1,12);
+        String validAddress2 = excelReader.getStringData("SignUpDataValid",1,13);
+        String validCountry = excelReader.getStringData("SignUpDataValid",1,14);
+        String validState = excelReader.getStringData("SignUpDataValid",1,15);
+        String validCity = excelReader.getStringData("SignUpDataValid",1,16);
+        String validZipcode = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,17));
+        String validMobileNumber = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,18));
+
+
+
+
 
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
         homePage.clickOnSignUpLogInLink();
@@ -44,29 +69,30 @@ public class SignUpTest extends BaseTest {
         Assert.assertTrue(signUpLogInPage.signupNameField.isDisplayed());
         Assert.assertTrue(signUpLogInPage.signupEmailField.isDisplayed());
         //asertacija url, visible signup button and input fields
-        signUpLogInPage.inputSignupName("Marko");
-        signUpLogInPage.inputSignupEmail("marko@marko123");
+        signUpLogInPage.inputSignupName(name);
+        signUpLogInPage.inputSignupEmail(validEmail);
         signUpLogInPage.clickOnSignupButton();
         //asertacija url, visible mandatory fields, create account button
-        signUpPage.selectTitle(1);
+        signUpPage.selectTitle(title);
         //asertacija da se proveri da name i email nisu prazni i da imaju iste vrednosti kao iz excel-a
-        signUpPage.inputPassword("QwertY123!@#");
-        signUpPage.inputFirstName("Marko");
-        signUpPage.inputLastName("Marko");
-        signUpPage.selectDayOfBirth(3);
-        signUpPage.selectMonthOfBirth(3);
-        signUpPage.selectYearOfBirth(1987);
-        signUpPage.selectNewsletter(1);
-        signUpPage.selectSpecialOffersInfo(1);
-        signUpPage.inputCompanyName("firma");
-        signUpPage.inputAddress1("adresa1");
-        signUpPage.inputAddress2("adresa2");
-        signUpPage.selectCountry("United States");
-        signUpPage.inputState("California");
-        signUpPage.inputCity("San Francisco");
-        signUpPage.inputZipCode("121212");
-        signUpPage.inputMobilePhone("13131313131313");
-
+        signUpPage.inputPassword(validPassword);
+        signUpPage.inputFirstName(validFirstName);
+        signUpPage.inputLastName(validLastName);
+        signUpPage.selectDayOfBirth((validDayOfBirth));
+        signUpPage.selectMonthOfBirth((validMonthOfBirth));
+        signUpPage.selectYearOfBirth((validYearOfBirth));
+        signUpPage.selectNewsletter(newsletterOption);
+        signUpPage.selectSpecialOffersInfo(specialOffersOption);
+        signUpPage.inputCompanyName(validCompany);
+        signUpPage.inputAddress1(validAddress1);
+        signUpPage.inputAddress2(validAddress2);
+        signUpPage.selectCountry(validCountry);
+        signUpPage.inputState(validState);
+        signUpPage.inputCity(validCity);
+        signUpPage.inputZipCode(validZipcode);
+        signUpPage.inputMobilePhone(validMobileNumber);
+        signUpPage.clickOnCreateAccount();
+        accountCreatedPage.clickOnContinueButton();
 
     }
 

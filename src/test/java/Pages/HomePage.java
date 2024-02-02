@@ -14,9 +14,28 @@ public class HomePage extends BaseTest {
     public WebElement signUpLogInLink;
 
 
+
+    @FindBy(css = "a[href='/products']")
+    public WebElement productsLink;
+
+    @FindBy(css = "a[href='/delete_account']")
+    public WebElement deleteAccountButton;
+
+    @FindBy(css = "a[href='/logout']")
+    public WebElement logoutButton;
+
+
     //--------------------------------------------------------------------
 
     public void clickOnSignUpLogInLink(){
         signUpLogInLink.click();
+    }
+
+    public void clickOnProductsLink(){
+        productsLink.click();
+    }
+
+    public void clickOnDeleteAccountButton(){
+        deleteAccountButton.click();
     }
 }

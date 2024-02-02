@@ -74,10 +74,10 @@ public class SignUpPage extends BaseTest {
 
     //-----------------------------------------------------------------
 
-    public void selectTitle(int titleID){
-        if (titleID == 1){
+    public void selectTitle(String titleID){
+        if (titleID.equalsIgnoreCase("mr")){
             clickON(maleTitleButton);
-        }else if(titleID == 2){
+        }else if(titleID.equalsIgnoreCase("mrs")){
             clickON(femaleTitleButton);
         }
     }
@@ -87,20 +87,20 @@ public class SignUpPage extends BaseTest {
         passwordField.sendKeys(userPassword);
     }
 
-    public void selectNewsletter(int newsletterID){
+    public void selectNewsletter(String newsletterID){
         if(newsletterCheckbox.isSelected()){
             clickON(newsletterCheckbox);
         }
-        if(newsletterID == 1){
+        if(newsletterID.equalsIgnoreCase("yes")){
             clickON(newsletterCheckbox);
         }
     }
 
-    public void selectSpecialOffersInfo(int specialOffersID){
+    public void selectSpecialOffersInfo(String specialOffersID){
         if(specialOffersInfoCheckbox.isSelected()){
             clickON(specialOffersInfoCheckbox);
         }
-        if(specialOffersID == 1){
+        if(specialOffersID.equalsIgnoreCase("yes")){
             clickON(specialOffersInfoCheckbox);
         }
     }
@@ -131,17 +131,17 @@ public class SignUpPage extends BaseTest {
         address2Field.sendKeys(userAddress2);
     }
 
-    public void selectDayOfBirth(int userDayOfBirth){
+    public void selectDayOfBirth(String userDayOfBirth){
         Select dayOfBirth = new Select(dayOfBirthField);
         dayOfBirth.selectByValue(String.valueOf(userDayOfBirth));
     }
 
-    public void selectMonthOfBirth(int userMonthOfBirth){
+    public void selectMonthOfBirth(String userMonthOfBirth){
         Select monthOfBirth = new Select(monthOfBirthField);
         monthOfBirth.selectByValue(String.valueOf(userMonthOfBirth));
     }
 
-    public void selectYearOfBirth(int userYearOfBirth){
+    public void selectYearOfBirth(String userYearOfBirth){
         Select yearOfBirth = new Select(yearOfBirthField);
         yearOfBirth.selectByValue(String.valueOf(userYearOfBirth));
     }
@@ -169,6 +169,10 @@ public class SignUpPage extends BaseTest {
     public void inputMobilePhone(String userMobile){
         mobileNumberField.clear();
         mobileNumberField.sendKeys(userMobile);
+    }
+
+    public void clickOnCreateAccount(){
+        createAccountButton.click();
     }
 
 
