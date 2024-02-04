@@ -2,10 +2,14 @@ package Pages;
 
 import Base.BaseTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +30,9 @@ public class ProductsPage extends BaseTest {
 
     @FindBy(css = "a[href='/view_cart']")
     public WebElement cartLink;
+
+    @FindBy(css = ".title.text-center")
+    public WebElement centralProductsTitle;
 
 
     //-----------------------------------------------------------
@@ -94,8 +101,23 @@ public class ProductsPage extends BaseTest {
         }
     }
 
-    public void clickOnContinueShoppingButton(){
+/*    public void clickOnContinueShoppingButton(){
         continueShoppingButton.click();
+    }*/
+
+/*    public void clickOnContinueShoppingButton(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        driver.switchTo().frame(0);
+        WebElement continueButton = driver.findElement(By.cssSelector("btn.btn-success.close-modal.btn-block"));
+        continueButton.click();
+    }*/
+
+    public void clickOnContinueShoppingButton(){
+        //driver.switchTo().frame(0);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        By continueButtonLocator = By.xpath("/html[1]/body[1]/section[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/button[1]");
+        WebElement continueButton = wait.until(ExpectedConditions.visibilityOfElementLocated(continueButtonLocator));
+        clickON(continueButton);
     }
 
 

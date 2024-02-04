@@ -12,7 +12,7 @@ import java.time.Duration;
 public class ProductsTest extends BaseTest {
 
     @BeforeMethod
-    public void pageSetUp(){
+    public void pageSetUp() throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://automationexercise.com/");
@@ -25,19 +25,26 @@ public class ProductsTest extends BaseTest {
         signUpPage = new SignUpPage();
 
 
+        homePage.clickOnProductsLink();
+
     }
 
-    @Test(priority = 10)
+    @Test (priority = 10)
+    public void userVerifiesThatThereAreProductsOnPage(){
+        removeGoogleAds();
+        Assert.assertEquals(driver.getCurrentUrl(), productsPageURL);
+        Assert.assertTrue(productsPage.getProductCount()>0);
+    }
+
+    @Test(priority = 20)
     public void userOpensRandomProduct(){
-        homePage.clickOnProductsLink();
         productsPage.clickOnRandomProduct();
         Assert.assertEquals(driver.getCurrentUrl(), productsPage.getProductID());
 
     }
 
-    @Test(priority = 20)
+    @Test(priority = 30)
     public void userAddsRandomProductToCart(){
-        homePage.clickOnProductsLink();
         productsPage.addRandomProductToCart();
         productsPage.clickOnContinueShoppingButton();
         productsPage.clickOnCartLink();

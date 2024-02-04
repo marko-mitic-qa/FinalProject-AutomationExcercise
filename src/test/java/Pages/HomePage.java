@@ -43,6 +43,16 @@ public class HomePage extends BaseTest {
         deleteAccountButton.click();
     }
 
+    public boolean deleteButtonIsVisible(){
+        boolean isDisplayed = false;
+        try{
+            isDisplayed = deleteAccountButton.isDisplayed();
+        }catch(Exception e){
+            System.out.println("DELETE BUTTON ERROR: " + e);
+        }
+        return isDisplayed;
+    }
+
 
 
 }

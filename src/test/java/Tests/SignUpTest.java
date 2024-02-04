@@ -9,6 +9,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class SignUpTest extends BaseTest {
 
@@ -34,7 +37,7 @@ public class SignUpTest extends BaseTest {
     }
 
     @Test (priority = 10)
-    public void newUserCanSignUpWithFilledMandatoryFieldsWithValidData(){
+    public void newUserCanSignUpFillingMandatoryFieldsWithValidData(){
         String name = excelReader.getStringData("SignUpDataValid",1,1);
         String validEmail = excelReader.getStringData("SignUpDataValid",1,2);
         String validPassword = excelReader.getStringData("SignUpDataValid",1,3);
@@ -95,10 +98,8 @@ public class SignUpTest extends BaseTest {
 
     }
 
-
-
     @Test (priority = 20)
-    public void newUserCanSignUp(){
+    public void newUserCanSignUpFillingAllFieldsWithValidData(){
         String title = excelReader.getStringData("SignUpDataValid",1,0);
         String name = excelReader.getStringData("SignUpDataValid",1,1);
         String validEmail = excelReader.getStringData("SignUpDataValid",1,2);
@@ -120,27 +121,32 @@ public class SignUpTest extends BaseTest {
         String validMobileNumber = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,18));
 
 
+
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
         homePage.clickOnSignUpLogInLink();
         Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
         Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
         Assert.assertTrue(signUpLogInPage.signupNameField.isDisplayed());
         Assert.assertTrue(signUpLogInPage.signupEmailField.isDisplayed());
-        //asertacija url, visible signup button and input fields
+
         signUpLogInPage.inputSignupName(name);
         signUpLogInPage.inputSignupEmail(validEmail);
         signUpLogInPage.clickOnSignupButton();
-        //asertacija url, visible mandatory fields, create account button
+        Assert.assertEquals(driver.getCurrentUrl(), signupURL);
+        Assert.assertEquals(signUpPage.nameField.getAttribute("value"), name);
+        Assert.assertEquals(signUpPage.emailField.getAttribute("value"), validEmail);
+
+
         signUpPage.selectTitle(title);
-        //asertacija da se proveri da name i email nisu prazni i da imaju iste vrednosti kao iz excel-a
         signUpPage.inputPassword(validPassword);
-        signUpPage.inputFirstName(validFirstName);
-        signUpPage.inputLastName(validLastName);
-        signUpPage.selectDayOfBirth((validDayOfBirth));
-        signUpPage.selectMonthOfBirth((validMonthOfBirth));
-        signUpPage.selectYearOfBirth((validYearOfBirth));
+
+        signUpPage.selectDayOfBirth(validDayOfBirth);
+        signUpPage.selectMonthOfBirth(validMonthOfBirth);
+        signUpPage.selectYearOfBirth(validYearOfBirth);
         signUpPage.selectNewsletter(newsletterOption);
         signUpPage.selectSpecialOffersInfo(specialOffersOption);
+        signUpPage.inputFirstName(validFirstName);
+        signUpPage.inputLastName(validLastName);
         signUpPage.inputCompanyName(validCompany);
         signUpPage.inputAddress1(validAddress1);
         signUpPage.inputAddress2(validAddress2);
@@ -149,15 +155,156 @@ public class SignUpTest extends BaseTest {
         signUpPage.inputCity(validCity);
         signUpPage.inputZipCode(validZipcode);
         signUpPage.inputMobilePhone(validMobileNumber);
-        signUpPage.clickOnCreateAccount();
-        accountCreatedPage.clickOnContinueButton();
 
+
+        Assert.assertEquals(signUpPage.nameField.getAttribute("value"), name);
+        Assert.assertEquals(signUpPage.passwordField.getAttribute("value"), validPassword);
+        Assert.assertEquals(signUpPage.firstNameField.getAttribute("value"),validFirstName);
+        Assert.assertEquals(signUpPage.lastNameField.getAttribute("value"), validLastName);
+        Assert.assertEquals(signUpPage.address1Field.getAttribute("value"), validAddress1);
+        Assert.assertEquals(signUpPage.countryField.getAttribute("value"), validCountry);
+        Assert.assertEquals(signUpPage.stateField.getAttribute("value"), validState);
+        Assert.assertEquals(signUpPage.cityField.getAttribute("value"), validCity);
+        Assert.assertEquals(signUpPage.zipCodeField.getAttribute("value"), validZipcode);
+        Assert.assertEquals(signUpPage.mobileNumberField.getAttribute("value"), validMobileNumber);
+
+        signUpPage.clickOnCreateAccount();
+        Assert.assertEquals(driver.getCurrentUrl(), accountCreatedURL);
+        Assert.assertTrue(accountCreatedPage.accountCreatedTitle.isDisplayed());
+        accountCreatedPage.clickOnContinueButton();
+        Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
+        Assert.assertTrue(homePage.loggedInAsUserButton.getText().contains(name));
+        Assert.assertTrue(homePage.logoutButton.isDisplayed());
 
     }
 
+    @Test (priority = 30)
+    public void userCanNotStartSignUpProcessByClickingOnSignupWithEmptyFields(){
+        String name = excelReader.getStringData("InvalidData",1,1);
+        String invalidEmail = excelReader.getStringData("InvalidData",1,2);
+
+        Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
+        homePage.clickOnSignUpLogInLink();
+        Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
+        Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupNameField.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupEmailField.isDisplayed());
+
+        signUpLogInPage.clickOnSignupButton();
+
+        Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
+        Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
+
+    }
+
+
+
+    @Test (priority = 40)
+    public void userCanNotStartSignUpProcessWhenEntersInvalidEmail(){
+        String name = excelReader.getStringData("InvalidData",1,1);
+        String invalidEmail = excelReader.getStringData("InvalidData",1,2);
+
+        Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
+        homePage.clickOnSignUpLogInLink();
+        Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
+        Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupNameField.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupEmailField.isDisplayed());
+
+        signUpLogInPage.inputSignupName(name);
+        signUpLogInPage.inputSignupEmail(invalidEmail);
+        signUpLogInPage.clickOnSignupButton();
+
+        Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
+        Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
+        //Kako uvatiti onaj mali popup kada se ukuca pogresan mejl
+
+    }
+
+    @Test (priority = 50)
+    public void newUserCantSignUpDoesntFillAllMandatoryFieldsWithValidData() throws InterruptedException {
+        String name = excelReader.getStringData("SignUpDataValid",1,1);
+        String validEmail = excelReader.getStringData("SignUpDataValid",1,2);
+        String validPassword = excelReader.getStringData("SignUpDataValid",1,3);
+        String validFirstName = excelReader.getStringData("SignUpDataValid",1,9);
+        String validLastName = excelReader.getStringData("SignUpDataValid",1,10);
+        String validAddress1 = excelReader.getStringData("SignUpDataValid",1,12);
+        String validCountry = excelReader.getStringData("SignUpDataValid",1,14);
+        String validState = excelReader.getStringData("SignUpDataValid",1,15);
+        String validCity = excelReader.getStringData("SignUpDataValid",1,16);
+        String validZipcode = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,17));
+        String validMobileNumber = String.valueOf(excelReader.getIntegerData("SignUpDataValid",1,18));
+
+
+
+        Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
+        homePage.clickOnSignUpLogInLink();
+        Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);
+        Assert.assertTrue(signUpLogInPage.signupButton.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupNameField.isDisplayed());
+        Assert.assertTrue(signUpLogInPage.signupEmailField.isDisplayed());
+
+
+
+
+        signUpLogInPage.inputSignupName(name);
+        signUpLogInPage.inputSignupEmail(validEmail);
+        signUpLogInPage.clickOnSignupButton();
+        Assert.assertEquals(driver.getCurrentUrl(), signupURL);
+        Assert.assertEquals(signUpPage.nameField.getAttribute("value"), name);
+        Assert.assertEquals(signUpPage.emailField.getAttribute("value"), validEmail);
+
+        List<Consumer<String>> mandatoryFields = Arrays.asList(
+                signUpPage::inputPassword,
+                signUpPage::inputFirstName,
+                signUpPage::inputLastName,
+                signUpPage::inputAddress1,
+                //signUpPage::selectCountry,
+                signUpPage::inputState,
+                signUpPage::inputCity,
+                signUpPage::inputZipCode,
+                signUpPage::inputMobilePhone
+        );
+
+        List<String> validFieldValues = Arrays.asList(
+                validPassword,
+                validFirstName,
+                validLastName,
+                validAddress1,
+                //validCountry,
+                validState,
+                validCity,
+                validZipcode,
+                validMobileNumber
+        );
+
+        // Loop through each mandatory field
+        for (int i = 0; i < mandatoryFields.size(); i++) {
+
+
+            for (int j = 0; j < mandatoryFields.size(); j++) {
+                if (i != j) {
+                    mandatoryFields.get(j).accept(validFieldValues.get(j));
+                }
+            }
+
+            // Click on the create account button
+            signUpPage.clickOnCreateAccount();
+
+            Assert.assertEquals(driver.getCurrentUrl(), signupURL);
+            Assert.assertNotEquals(driver.getCurrentUrl(), accountCreatedURL);
+
+            driver.navigate().refresh();
+        }
+
+    }
+
+
+
+
 /*    @AfterMethod
     public void tearDown(){
-        if(homePage.deleteAccountButton.isDisplayed()){
+        if(homePage.deleteButtonIsVisible()){
             homePage.deleteAccountButton.click();
             accountDeletedPage.clickOnContinueButton();
         }
