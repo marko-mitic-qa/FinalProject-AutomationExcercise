@@ -302,7 +302,7 @@ public class SignUpTest extends BaseTest {
 
 
 
-/*    @AfterMethod
+    @AfterMethod
     public void tearDown(){
         if(homePage.deleteButtonIsVisible()){
             homePage.deleteAccountButton.click();
@@ -311,7 +311,7 @@ public class SignUpTest extends BaseTest {
 
         driver.manage().deleteAllCookies();
         driver.quit();
-    }*/
+    }
 
 
 
