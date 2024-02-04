@@ -25,6 +25,7 @@ public class BaseTest {
     public ProductsPage productsPage;
     public AccountCreatedPage accountCreatedPage;
     public AccountDeletedPage accountDeletedPage;
+    public CartPage cartPage;
 
     //------------------------------------
     public String homepageURL = "https://automationexercise.com/";
@@ -33,6 +34,8 @@ public class BaseTest {
     public String accountCreatedURL = "https://automationexercise.com/account_created";
     public String accountDeletedURL = "https://automationexercise.com/delete_account";
     public String productsPageURL = "https://automationexercise.com/products";
+    public String cartPageURL = "https://automationexercise.com/view_cart";
+
 
     @BeforeClass
     public void setUp() throws IOException {

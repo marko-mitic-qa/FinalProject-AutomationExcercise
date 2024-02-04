@@ -14,6 +14,9 @@ public class HomePage extends BaseTest {
     @FindBy(css = "a[href='/login']")
     public WebElement signUpLogInLink;
 
+    @FindBy(partialLinkText = "Cart")
+    public WebElement cartLink;
+
 
 
     @FindBy(css = "a[href='/products']")
@@ -37,6 +40,9 @@ public class HomePage extends BaseTest {
 
     public void clickOnProductsLink(){
         productsLink.click();
+    }
+    public void clickOnCartLink(){
+        cartLink.click();
     }
 
     public void clickOnDeleteAccountButton(){
