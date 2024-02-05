@@ -34,18 +34,29 @@ public class ProductsPage extends BaseTest {
     @FindBy(css = ".title.text-center")
     public WebElement centralProductsTitle;
 
+    @FindBy(xpath = "//u[normalize-space()='View Cart']")
+    public WebElement viewCartPopup;
+
+    @FindBy(css = "a[href='/login']")
+    public WebElement signUpLoginLink;
+
 
     //-----------------------------------------------------------
 
 
 
     public String productID;
+    public String addToCartProductID;
+    public String addedProductID = "/product_details/" + addToCartProductID;
 
 
 
     public String productTitle;
     public String getProductID() {
         return productID;
+    }
+    public void clickOnSignupLoginLink(){
+        signUpLoginLink.click();
     }
     public String getProductTitle() {
         return productTitle;
@@ -77,7 +88,7 @@ public class ProductsPage extends BaseTest {
             int randomAddToCartIndex = random.nextInt(addToCartProductsList.size());
 
             WebElement randomProduct = addToCartProductsList.get(randomAddToCartIndex);
-            productTitle = randomProduct.getText();
+            addToCartProductID = randomProduct.getAttribute("data-product-id");
             WebElement addToCartButton = randomProduct.findElement(By.linkText("Add to cart"));
             clickON(addToCartButton);
         }
@@ -90,11 +101,8 @@ public class ProductsPage extends BaseTest {
             int randomIndex = random.nextInt(singleProductElements.size());
 
             WebElement randomSingleProduct = singleProductElements.get(randomIndex);
-
-            // Find the button with id "button" inside the selected single-product element
             WebElement buttonElement = randomSingleProduct.findElement(By.id("button"));
 
-            // Click on the button
             buttonElement.click();
         } else {
             System.out.println("No single-products elements found");
@@ -118,6 +126,10 @@ public class ProductsPage extends BaseTest {
         By continueButtonLocator = By.xpath("/html[1]/body[1]/section[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/button[1]");
         WebElement continueButton = wait.until(ExpectedConditions.visibilityOfElementLocated(continueButtonLocator));
         clickON(continueButton);
+    }
+
+    public void clickOnViewCartPopup(){
+        viewCartPopup.click();
     }
 
 

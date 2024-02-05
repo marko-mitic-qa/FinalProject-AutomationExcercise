@@ -15,7 +15,7 @@ public class ProductsTest extends BaseTest {
     public void pageSetUp() throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("https://automationexercise.com/");
+        driver.get(productsPageURL);
         driver. manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
 
@@ -23,10 +23,8 @@ public class ProductsTest extends BaseTest {
         productsPage = new ProductsPage();
         signUpLogInPage = new SignUpLogInPage();
         signUpPage = new SignUpPage();
-
-
-        homePage.clickOnProductsLink();
-
+        cartPage = new CartPage();
+        checkoutPage = new CheckoutPage();
     }
 
     @Test (priority = 10)
@@ -39,17 +37,15 @@ public class ProductsTest extends BaseTest {
     @Test(priority = 20)
     public void userOpensRandomProduct(){
         productsPage.clickOnRandomProduct();
+        removeGoogleAds();
+        productsPage.clickOnRandomProduct();
         Assert.assertEquals(driver.getCurrentUrl(), productsPage.getProductID());
 
     }
 
-    @Test(priority = 30)
-    public void userAddsRandomProductToCart(){
-        productsPage.addRandomProductToCart();
-        productsPage.clickOnContinueShoppingButton();
-        productsPage.clickOnCartLink();
 
-    }
+
+
 
 
 

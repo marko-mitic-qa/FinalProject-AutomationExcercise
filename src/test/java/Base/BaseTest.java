@@ -26,6 +26,9 @@ public class BaseTest {
     public AccountCreatedPage accountCreatedPage;
     public AccountDeletedPage accountDeletedPage;
     public CartPage cartPage;
+    public CheckoutPage checkoutPage;
+    public PaymentPage paymentPage;
+    public PaymentDonePage paymentDonePage;
 
     //------------------------------------
     public String homepageURL = "https://automationexercise.com/";
@@ -35,6 +38,9 @@ public class BaseTest {
     public String accountDeletedURL = "https://automationexercise.com/delete_account";
     public String productsPageURL = "https://automationexercise.com/products";
     public String cartPageURL = "https://automationexercise.com/view_cart";
+    public String checkoutPageURL = "https://automationexercise.com/checkout";
+    public String paymentPageURL = "https://automationexercise.com/payment";
+    public String paymentDonePageURL = "https://automationexercise.com/payment_done/";
 
 
     @BeforeClass
