@@ -35,6 +35,10 @@ public class HomePageTest extends BaseTest {
     @Test(priority = 10)
     public void userCanOpenProductsPageFromHomepage(){
         homePage.clickOnProductsLink();
+        removeGoogleAds();
+        if(driver.getCurrentUrl().equals(homepageURL + "#google_vignette")){
+            homePage.clickOnProductsLink();
+        }
         Assert.assertEquals(driver.getCurrentUrl(), productsPageURL);
     }
 

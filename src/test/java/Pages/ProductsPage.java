@@ -39,6 +39,18 @@ public class ProductsPage extends BaseTest {
 
     @FindBy(css = "a[href='/login']")
     public WebElement signUpLoginLink;
+    @FindBy(id = "search_product")
+    public WebElement searchProductField;
+
+    @FindBy(id = "submit_search")
+    public WebElement searchButton;
+
+    @FindBy(className = "single-products")
+    public List<WebElement> allProductsOverlay;
+    @FindBy(xpath = "//a[contains(@href, '/category_products/')]")
+    public List<WebElement> allProductsCategories;
+    @FindBy(xpath = "//a[contains(@href, '/brand_products/')]")
+    public List<WebElement> allBrandList;
 
 
     //-----------------------------------------------------------
@@ -47,11 +59,15 @@ public class ProductsPage extends BaseTest {
 
     public String productID;
     public String addToCartProductID;
+    public String categoryURL;
+    public String brandURL;
+    public String brandTitle;
     public String addedProductID = "/product_details/" + addToCartProductID;
 
 
 
     public String productTitle;
+    public String categoryTitle;
     public String getProductID() {
         return productID;
     }
@@ -131,6 +147,89 @@ public class ProductsPage extends BaseTest {
     public void clickOnViewCartPopup(){
         viewCartPopup.click();
     }
+
+    public void inputSearchProduct(String product){
+        searchProductField.clear();
+        searchProductField.sendKeys(product);
+    }
+
+    public String randomProductTitle(){
+        if (allProductsOverlay.size() > 0) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(allProductsOverlay.size());
+            WebElement randomElement = allProductsOverlay.get(randomIndex);
+
+            // Get the text inside the <p> tag of the chosen element
+            WebElement pElement = randomElement.findElement(By.tagName("p"));
+            String textInsideP = pElement.getText();
+            System.out.println("Randomly chosen text inside <p> tag: " + textInsideP);
+            return textInsideP;
+        } else {
+            System.out.println("No products found on the page.");
+            return ""; // or handle it according to your requirements
+        }
+    }
+
+    public boolean searchedProductsAreVisible(String searchedProductName){
+        boolean isDisplayed = true;
+        for(WebElement product: allProductsOverlay){
+            if(!product.findElement(By.tagName("p")).getText().equals(searchedProductName)){
+                isDisplayed = false;
+                break;
+            }
+        }
+        return isDisplayed;
+    }
+
+    public void selectRandomCategoryProduct() {
+        Random random = new Random();
+
+        // Check if there are any category products
+        if (allProductsCategories.isEmpty()) {
+            System.out.println("No category products found.");
+        }
+
+        // Select a random category brand link
+        int randomIndex = random.nextInt(allProductsCategories.size());
+        WebElement randomCategoryProduct = allProductsCategories.get(randomIndex);
+        categoryURL = randomCategoryProduct.getAttribute("href");
+
+
+        // Get the text of the selected brand product link
+         categoryTitle = randomCategoryProduct.getText();
+
+        // Click on the selected category product link
+        clickON(randomCategoryProduct);
+
+    }
+
+    public void selectRandomBrandProducts() {
+        Random random = new Random();
+
+        // Check if there are any category products
+        if (allBrandList.isEmpty()) {
+            System.out.println("No brand products found.");
+        }
+
+        // Select a random category product link
+        int randomIndex = random.nextInt(allBrandList.size());
+        WebElement randomBrandProduct = allBrandList.get(randomIndex);
+        brandURL = randomBrandProduct.getAttribute("href");
+
+
+        // Get the text of the selected category product link
+        brandTitle = randomBrandProduct.getText();
+
+        // Click on the selected brand product link
+        clickON(randomBrandProduct);
+
+    }
+
+    public void clickOnSearchButton(){
+        searchButton.click();
+    }
+
+
 
 
 

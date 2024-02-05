@@ -4,6 +4,7 @@ import Base.BaseTest;
 import Pages.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -72,7 +73,9 @@ public class CheckoutTest extends BaseTest {
         Assert.assertTrue(checkoutPage.doesBillingAddressContainsValidData(checkoutPage.invoiceUserInfo(), userMandatoryData));
         Assert.assertEquals(driver.getCurrentUrl(), checkoutPageURL);
         checkoutPage.clickOnPlaceOrderButton();
-        removeGoogleAds();
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/checkout#google_vignette")){
+            checkoutPage.clickOnPlaceOrderButton();
+        }
         Assert.assertEquals(driver.getCurrentUrl(), paymentPageURL);
         paymentPage.inputNameOnCard(validFirstName + " " + validLastName);
         paymentPage.inputCardNumber(validCardNumber);
@@ -85,8 +88,12 @@ public class CheckoutTest extends BaseTest {
         paymentDonePage.clickOnContinueButton();
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
 
+    }
 
-
+    @AfterMethod
+    public void tearDown(){
+        driver.manage().deleteAllCookies();
+        driver.quit();
     }
 
 }

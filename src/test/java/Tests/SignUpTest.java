@@ -280,15 +280,12 @@ public class SignUpTest extends BaseTest {
 
         // Loop through each mandatory field
         for (int i = 0; i < mandatoryFields.size(); i++) {
-
-
             for (int j = 0; j < mandatoryFields.size(); j++) {
                 if (i != j) {
                     mandatoryFields.get(j).accept(validFieldValues.get(j));
                 }
             }
 
-            // Click on the create account button
             signUpPage.clickOnCreateAccount();
 
             Assert.assertEquals(driver.getCurrentUrl(), signupURL);
@@ -298,9 +295,6 @@ public class SignUpTest extends BaseTest {
         }
 
     }
-
-
-
 
     @AfterMethod
     public void tearDown(){

@@ -4,6 +4,7 @@ import Base.BaseTest;
 import Pages.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,12 +36,59 @@ public class ProductsTest extends BaseTest {
     }
 
     @Test(priority = 20)
-    public void userOpensRandomProduct(){
+    public void userVerifiesThatClickingOnProductOpensThatSameProductInNewPage(){
         productsPage.clickOnRandomProduct();
         removeGoogleAds();
         productsPage.clickOnRandomProduct();
         Assert.assertEquals(driver.getCurrentUrl(), productsPage.getProductID());
 
+    }
+    @Test(priority = 30)
+    public void userCanSearchForExistingItemFromSearchField() throws InterruptedException {
+        String productTitle = productsPage.randomProductTitle();
+
+        productsPage.inputSearchProduct(productTitle);
+        productsPage.clickOnSearchButton();
+        Assert.assertTrue(productsPage.searchedProductsAreVisible(productTitle));
+    }
+
+    @Test(priority = 40)
+    public void userCanSelectCategoryOfProducts(){
+        productsPage.selectRandomCategoryProduct();
+        removeGoogleAds();
+
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/products#google_vignette")){
+            productsPage.selectRandomCategoryProduct();
+        }
+        Assert.assertEquals(driver.getCurrentUrl(), productsPage.categoryURL);
+
+    }
+
+    @Test(priority = 50)
+    public void userCanSelectProductsByBrand(){
+        productsPage.selectRandomBrandProducts();
+        removeGoogleAds();
+
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/products#google_vignette")){
+            productsPage.selectRandomBrandProducts();
+        }
+        Assert.assertEquals(driver.getCurrentUrl(), productsPage.brandURL);
+
+    }
+
+
+
+
+
+    @AfterMethod
+    public void tearDown(){
+        if(homePage.deleteButtonIsVisible()){
+            homePage.deleteAccountButton.click();
+            accountDeletedPage.clickOnContinueButton();
+        }
+
+        driver.manage().deleteAllCookies();
+        driver.quit();
     }
 
 
