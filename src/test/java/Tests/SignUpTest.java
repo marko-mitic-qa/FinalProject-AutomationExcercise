@@ -92,6 +92,10 @@ public class SignUpTest extends BaseTest {
         Assert.assertEquals(driver.getCurrentUrl(), accountCreatedURL);
         Assert.assertTrue(accountCreatedPage.accountCreatedTitle.isDisplayed());
         accountCreatedPage.clickOnContinueButton();
+        removeGoogleAds();
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/account_created#google_vignette")){
+            accountCreatedPage.clickOnContinueButton();
+        }
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
         Assert.assertTrue(homePage.loggedInAsUserButton.getText().contains(name));
         Assert.assertTrue(homePage.logoutButton.isDisplayed());
@@ -172,6 +176,10 @@ public class SignUpTest extends BaseTest {
         Assert.assertEquals(driver.getCurrentUrl(), accountCreatedURL);
         Assert.assertTrue(accountCreatedPage.accountCreatedTitle.isDisplayed());
         accountCreatedPage.clickOnContinueButton();
+        removeGoogleAds();
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/account_created#google_vignette")){
+            accountCreatedPage.clickOnContinueButton();
+        }
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
         Assert.assertTrue(homePage.loggedInAsUserButton.getText().contains(name));
         Assert.assertTrue(homePage.logoutButton.isDisplayed());
@@ -180,9 +188,6 @@ public class SignUpTest extends BaseTest {
 
     @Test (priority = 30)
     public void userCanNotStartSignUpProcessByClickingOnSignupWithEmptyFields(){
-        String name = excelReader.getStringData("InvalidData",1,1);
-        String invalidEmail = excelReader.getStringData("InvalidData",1,2);
-
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
         homePage.clickOnSignUpLogInLink();
         Assert.assertEquals(driver.getCurrentUrl(), signUpLoginURL);

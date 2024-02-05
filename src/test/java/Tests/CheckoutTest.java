@@ -86,6 +86,10 @@ public class CheckoutTest extends BaseTest {
         Assert.assertTrue(driver.getCurrentUrl().contains(paymentDonePageURL));
         Assert.assertTrue(paymentDonePage.downloadInvoiceButton.isDisplayed());
         paymentDonePage.clickOnContinueButton();
+        removeGoogleAds();
+        if(driver.getCurrentUrl().equals("https://automationexercise.com/payment_done/400#google_vignette")){
+            paymentDonePage.clickOnContinueButton();
+        }
         Assert.assertEquals(driver.getCurrentUrl(), homepageURL);
 
     }
